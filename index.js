@@ -2,6 +2,7 @@ const express = require('express')
 const app = express();
 const compression = require('compression')
 const config = require('./config');
+const apiStaff = require("./routes/staff").router;
 const apiUser = require("./routes/user").router;
 
 app.use(express.urlencoded({ extended: true }));
@@ -13,6 +14,8 @@ app.use(function (req, res, next) {
     next();
 });
 
+
+app.use("/api/admin", apiStaff);
 app.use("/api", apiUser);
 
 app.listen(config.PORT, () => {

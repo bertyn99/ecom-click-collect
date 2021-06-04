@@ -1,19 +1,19 @@
-const User = require("../db/model/USER");
+const Staff = require("../db/model/Staff");
 const config = require('../config');
 const jwt = require('jsonwebtoken');
 
 const verifyToken = async (req, res, next) => {
     try {
         const token = req.header('Authorization').replace('Bearer ', '')
-        const decoded = jwt.verify(token, config.JWT_KEY)
-        const user = await User.findOne({ _id: decoded._id, 'tokens.token': token })
-        console.log(user)
+        const decoded = jwt.verify(token, config.JWT_SECRET)
+        const staff = await Staff.findOne({ _id: decoded._id, role: decoded.role, 'tokens.token': token })
+        console.log(staff)
         if (!user) {
             throw new Error()
         }
 
-        req.token = token
-        req.user = user
+        req.token = token;
+        req.staff = staff;
         next()
     } catch (e) {
         res.status(401).send({ error: 'Please authenticate.' })

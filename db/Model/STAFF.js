@@ -1,18 +1,13 @@
 const mongoose = require('mongoose');
+const config = require("../../config")
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const Schema = mongoose.Schema;
-const validator = require('validator')
+const validator = require('validator');
+const { user } = require('../connexion');
 
-let userSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        set: function (val) {
-            return val.replace(' ', '');
-        },
-        trim: true
-    },
+
+let staffSchema = new Schema({
     email: {
         type: String,
         required: true,
@@ -60,45 +55,56 @@ let userSchema = new Schema({
         }
     }],
     createIp: { type: String, required: false },
-    isAdmin: { type: Number, required: false },
+    role: {
+        type: String,
+        default: 'basic',
+        enum: ["basic", "supervisor", "admin"]
+    },
     resetPassword: { type: Object, required: false },
-    mobile: { type: Number, required: false }
+    mobile: { type: String, minlength: 10 }
 }, {
     timestamps: true
 });
 
-userSchema.methods.generateAuthToken = async function () {
-    const user = this
-    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_KEY)
-    user.tokens = user.tokens.concat({ token })
-    await user.save()
+staffSchema.methods.generateAuthToken = async function () {
+    const staff = this
+    const token = jwt.sign({ _id: staff._id.toString(), role: user.role }, config.JWT_SECRET)
+    staff.tokens = staff.tokens.concat({ token })
+    await staff.save()
 
     return token
 }
-userSchema.statics.findByCredentials = async (email, password) => {
-    const user = await User.findOne({ email })
-    console.log(user)
-    if (!user) {
+staffSchema.statics.findByCredentials = async (email, password) => {
+    const staff = await Staff.findOne({ email })
+    console.log(staff)
+    if (!staff) {
         throw new Error('Unable to login.')
     }
 
-    const isMatch = await bcrypt.compare(password, user.password)
+    const isMatch = await bcrypt.compare(password, staff.password)
 
     if (!isMatch) {
         throw new Error('Unable to login.')
     }
-    return user
+    return staff
 }
 
-userSchema.pre('save', async function (next) {
-    const user = this
-    if (user.isModified('password')) {
-        user.password = await bcrypt.hash(user.password, 8)
+staffSchema.pre('save', async function (next) {
+    const staff = this
+    if (staff.isModified('password')) {
+        staff.password = await bcrypt.hash(staff.password, 8)
     }
 
     next()
 })
+function modelAlreadyDeclared() {
+    try {
+        mongoose.model('Staff')  // it throws an error if the model is still not defined
+        return true
+    } catch (e) {
+        return false
+    }
+}
+const Staff = !modelAlreadyDeclared() ? mongoose.model("Staff", staffSchema) : mongoose.model('Staff')
 
-const User = mongoose.model('User', userSchema)
-
-module.exports = User;
+module.exports = Staff;
