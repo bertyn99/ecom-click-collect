@@ -3,8 +3,8 @@
 //////////////////////////////////////////////////////////////////////////
 
 const mongoose = require("mongoose");
-const db = require('../config');
-mongoose.connect(process.env.DBURL, {
+const config = require('../config');
+mongoose.connect(config.DBURL, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
