@@ -1,18 +1,11 @@
 const mongoose = require('mongoose');
+const config = require("../../config")
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const Schema = mongoose.Schema;
 const validator = require('validator')
 
 let userSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        set: function (val) {
-            return val.replace(' ', '');
-        },
-        trim: true
-    },
     email: {
         type: String,
         required: true,
@@ -46,13 +39,14 @@ let userSchema = new Schema({
             add one Maj a t least in the password
             if(value.includes()){
                 throw new Error('Password need to contain a number.')
-            } 
-            
-            */
+            } */
+
+
         }
     },
-    firstname: { type: String, required: false },
-    lastname: { type: String, required: false },
+
+    firstname: { type: String, required: true },
+    lastname: { type: String, required: true },
     tokens: [{
         token: {
             type: String,
@@ -60,16 +54,15 @@ let userSchema = new Schema({
         }
     }],
     createIp: { type: String, required: false },
-    isAdmin: { type: Number, required: false },
     resetPassword: { type: Object, required: false },
-    mobile: { type: Number, required: false }
+    mobile: { type: String, required: true, minlength: 10 }
 }, {
     timestamps: true
 });
 
 userSchema.methods.generateAuthToken = async function () {
     const user = this
-    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_KEY)
+    const token = jwt.sign({ _id: user._id.toString() }, config.JWT_SECRET)
     user.tokens = user.tokens.concat({ token })
     await user.save()
 
