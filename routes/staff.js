@@ -1,8 +1,15 @@
 
 const express = require("express");
+//controller
 const staff = require("../controller/staffController");
+
+//middleware
 const verifyToken = require("../middleware/verifyToken");
+
+//healthcheck
 const status = require("../controller/statusController");
+
+
 exports.router = (function () {
   let apiStaff = express.Router();
   // register user
