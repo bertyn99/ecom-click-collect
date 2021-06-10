@@ -28,14 +28,18 @@ const orderItemSchema = new mongoose.Schema({
 });
 
 const orderSchema = new mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: "", required },
+    userRandom: {
+        firstname: { type: String, required: true, default: "" },
+        lastname: { type: String, required: true, default: "" }
+    },
     orderItems: [orderItemSchema],
     payement: paymentSchema,
     totalPrice: { type: Number },
     taxPrice: { type: Number },
     isPaid: { type: Boolean, default: false },
     paidAt: { type: Date },
-    isDelivered: { type: Boolean, default: false },
+    isCollected: { type: Boolean, default: false },
     deliveredAt: { type: Date },
 }, {
     timestamps: true
