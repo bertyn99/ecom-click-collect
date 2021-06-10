@@ -1,0 +1,85 @@
+const Order = require("../db/model/ORDER");
+const database = require("../db/connexion");
+
+
+async function getOrder(req, res) {
+    const _id = req.params.id
+
+    try {
+        const order = await Order.findById(_id);
+        console.log(order);
+        if (!order) {
+            throw Error
+        }
+        res.status(200).send(order)
+    } catch (e) {
+        res.status(404).send("This is a wrong id we cant find your orders")
+    }
+
+}
+
+
+
+async function getYourOrders(req, res) {
+    const _id = req.params.id
+    try {
+        const order = await Order.find({ user: req.user._id }).limit(10);
+        console.log(order);
+        if (!order) {
+            throw new Error
+        }
+        res.status(200).send(order)
+    } catch (e) {
+        res.status(404).send("This is a wrong id we cant find your orders")
+    }
+
+}
+
+async function createOrder(req, res) {
+    const order = new Order(req.body);
+    try {
+        await order.save();
+        res.status(201).send({ order, token });
+    } catch (e) {
+        res.status(400).send(e);
+    }
+
+}
+async function updateOrders(req, res) {
+    const id = req.params.id;
+    const allowedUpdates = ['user', 'user', 'image', 'price', 'product', 'description', 'reviews'];
+    const updates = Object.keys(req.body);
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+
+    if (!isValidOperation) {
+        res.status(400).send({ error: 'Invalid Update!!' })
+    }
+    try {
+        await Product.findOneAndUpdate({ '_id': req.params.id }, { $set: { ...req.body } }, { new: true, runValidators: true })
+
+        res.status(201).json("Votre produit a bien été modifié")
+    } catch (e) {
+        res.status(400).json(e);
+    }
+}
+
+async function deleteOrder(req, res) {
+    try {
+        const deletedOrd = await Order.findById(req.params.id);
+        if (deletedOrd) {
+            await deleteOrd.remove();
+            res.send({ message: 'Order Deleted' });
+        }
+    } catch (e) {
+        res.status(500).send(e)
+    }
+}
+
+module.exports = {
+    getOrder,
+    getYourOrders,
+    createOrder,
+    updateOrders,
+    deleteOrder
+
+}
