@@ -5,6 +5,7 @@ const config = require('./config');
 const apiStaff = require("./routes/staff").router;
 const apiUser = require("./routes/user").router;
 const apiIngredient = require("./routes/ingredient").router;
+const apiProduct = require("./routes/product");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -16,8 +17,10 @@ app.use(function (req, res, next) {
 });
 
 app.use("/api/admin", apiStaff);
-app.use("/api/admin/ingredients", apiIngredient);
+app.use("/api/ingredients", apiIngredient);
+app.use("/api/product", apiProduct);
 app.use("/api", apiUser);
+
 
 app.listen(config.PORT, () => {
     console.log(`Application listening on port ${config.PORT}!`);

@@ -2,7 +2,6 @@
 //db and schema
 /* const User = require("../db/type/user"); */
 const User = require("../db/model/USER");
-const database = require("../db/connexion");
 
 const bcrypt = require("bcrypt");
 
@@ -18,6 +17,7 @@ async function register(req, res) {
     } catch (e) {
         res.status(400).send(e)
     }
+
 }
 
 async function logIn(req, res) {
@@ -59,7 +59,8 @@ async function myInfo(req, res) {
 }
 
 async function updateInfo(req, res) {
-    const allowedUpdates = ['name', 'email', 'password']
+    const id = req.params.id
+    const allowedUpdates = ['name', 'email', 'password', 'mobile']
     const updates = Object.keys(req.body)
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
@@ -68,7 +69,12 @@ async function updateInfo(req, res) {
     }
 
     try {
-        updates.forEach((update) => req.user[update] = req.body[update])
+        updates.forEach((update) => [update] = req.body[update])
+        console.log(req.user._id)
+        if (id != req.user._id) {
+            res.status(404).json("Vous n'avrez pas le droit de mettre a jour un autre utilisateur");
+        }
+
         await req.user.save()
         res.send(req.user)
 
@@ -87,11 +93,11 @@ async function deleteUser(req, res) {
 }
 
 
+
 module.exports = {
     register,
     logIn,
     logOut,
     myInfo,
-    deleteUser,
     updateInfo
 }
