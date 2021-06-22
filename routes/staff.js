@@ -19,7 +19,7 @@ exports.router = (function () {
   apiStaff.route("/login").post(staff.logIn);
 
   // deconnection user
-  apiStaff.route("/logout").post(verifyToken, staff.logOut);
+  /*  apiStaff.route("/logout").post(verifyToken, staff.logOut); */
 
   /*   // reconnect user
     apiUser.route("/reconnect").post(verifyToken, lastView, user.reconnectUser); */

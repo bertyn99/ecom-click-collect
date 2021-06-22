@@ -2,7 +2,6 @@
 //db and schema
 /* const User = require("../db/type/user"); */
 const Staff = require("../db/model/STAFF");
-const database = require("../db/connexion");
 
 const bcrypt = require("bcrypt");
 

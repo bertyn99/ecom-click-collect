@@ -105,6 +105,6 @@ function modelAlreadyDeclared() {
         return false
     }
 }
-const Staff = !modelAlreadyDeclared() ? mongoose.model("Staff", staffSchema) : mongoose.model('Staff')
+const Staff = mongoose.models.Staff || mongoose.model("Staff", staffSchema)  /* !modelAlreadyDeclared() ? mongoose.model("Staff", staffSchema) : mongoose.model('Staff') */
 
 module.exports = Staff;
