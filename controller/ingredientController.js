@@ -1,4 +1,4 @@
-const Ingredient = require("../db/Model/INGREDIENTS");
+const Ingredient = require("../db/model/INGREDIENTS");
 
 async function getIngredients(req, res) {
     try {
