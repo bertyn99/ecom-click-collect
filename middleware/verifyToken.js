@@ -8,7 +8,7 @@ const verifyToken = async (req, res, next) => {
         const decoded = jwt.verify(token, config.JWT_SECRET)
         const staff = await Staff.findOne({ _id: decoded._id, role: decoded.role, 'tokens.token': token })
         console.log(staff)
-        if (!user) {
+        if (!staff) {
             throw new Error()
         }
 

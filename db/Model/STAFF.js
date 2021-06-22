@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const Schema = mongoose.Schema;
 const validator = require('validator');
-const { user } = require('../connexion');
+
 
 
 let staffSchema = new Schema({
@@ -105,6 +105,6 @@ function modelAlreadyDeclared() {
         return false
     }
 }
-const Staff = mongoose.models.Staff || mongoose.model("Staff", staffSchema)  /* !modelAlreadyDeclared() ? mongoose.model("Staff", staffSchema) : mongoose.model('Staff') */
+/*const Staff = mongoose.models.Staff || mongoose.model("Staff", staffSchema)   !modelAlreadyDeclared() ? mongoose.model("Staff", staffSchema) : mongoose.model('Staff') */
 
-module.exports = Staff;
+module.exports = mongoose.models.Staff || mongoose.model("Staff", staffSchema);
