@@ -107,8 +107,9 @@ function modelAlreadyDeclared() {
 }
 console.log(process.env.NODE_ENV)
 /*const Staff = mongoose.models.Staff || mongoose.model("Staff", staffSchema)   !modelAlreadyDeclared() ? mongoose.model("Staff", staffSchema) : mongoose.model('Staff') */
-if (process.env.NODE_ENV === 'production') {
+/* if (process.env.NODE_ENV === 'production') {
     module.exports = mongoose.model("Staff", staffSchema);
 } else {
     module.exports = mongoose.models.Staff || mongoose.model("Staff", staffSchema);
-}
+} */
+module.exports = mongoose.model("Staff", staffSchema);
