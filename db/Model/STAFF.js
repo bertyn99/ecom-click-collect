@@ -68,7 +68,7 @@ let staffSchema = new Schema({
 
 staffSchema.methods.generateAuthToken = async function () {
     const staff = this
-    const token = jwt.sign({ _id: staff._id.toString(), role: user.role }, config.JWT_SECRET)
+    const token = jwt.sign({ _id: staff._id.toString(), role: staff.role }, config.JWT_SECRET)
     staff.tokens = staff.tokens.concat({ token })
     await staff.save()
 
