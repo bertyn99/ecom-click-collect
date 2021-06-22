@@ -1,7 +1,7 @@
 // To declare
 //db and schema
 /* const User = require("../db/type/user"); */
-const Staff = require("../db/model/Staff");
+const Staff = require("../db/Model/Staff");
 
 const bcrypt = require("bcrypt");
 

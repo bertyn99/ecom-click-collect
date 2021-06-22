@@ -1,4 +1,4 @@
-const Staff = require("../db/model/Staff");
+const Staff = require("../db/Model/Staff");
 const config = require('../config');
 const jwt = require('jsonwebtoken');
 
