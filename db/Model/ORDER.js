@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 const shippingSchema = {
     address: {
         street: { type: String, required: true },
@@ -16,9 +16,7 @@ const paymentSchema = {
 };
 
 const orderItemSchema = new mongoose.Schema({
-    name: { type: String, required: true },
     qty: { type: Number, required: true },
-    image: { type: String, required: true },
     price: { type: String, required: true },
     product: {
         type: mongoose.Schema.Types.ObjectId,
@@ -38,9 +36,8 @@ const orderSchema = new mongoose.Schema({
     totalPrice: { type: Number },
     taxPrice: { type: Number },
     isPaid: { type: Boolean, default: false },
-    paidAt: { type: Date },
+    orderAt: { type: Date },
     isCollected: { type: Boolean, default: false },
-    deliveredAt: { type: Date },
 }, {
     timestamps: true
 });

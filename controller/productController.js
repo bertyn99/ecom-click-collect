@@ -3,11 +3,11 @@ const Product = require("../db/Model/PRODUCT");
 
 async function getProducts(req, res) {
     try {
-        const products = await Product.find();
+        const products = await Product.find().populate('ingredients');
         if (!products) {
             throw new Error
         }
-        res.status(200).send(order);
+        res.status(200).send(products);
     } catch (e) {
         res.status(404).send("We cant find product")
     }
@@ -16,9 +16,9 @@ async function getProducts(req, res) {
 async function getProduct(req, res) {
     const id = req.params.id;
     try {
-        const product = await Product.findOne({ _id: id });
+        const product = await Product.findOne({ _id: id }).populate('ingredients');
         if (!product) return res.status(400).send("This is a wrong product id");
-        res.status(200).json(product);
+        res.status(200).send(product);
     } catch (e) {
         res.status(404).send(e)
     }
@@ -28,7 +28,7 @@ async function createProduct(req, res) {
     const product = new Product({ ...req.body });
     try {
         await product.save();
-        res.status(201).json({ products })
+        res.status(201).send(product);
     } catch (e) {
         res.status(400).send(e);
     }
@@ -69,5 +69,6 @@ module.exports = {
     getProduct,
     createProduct,
     updateProduct,
+    deleteProduct
 
 }
