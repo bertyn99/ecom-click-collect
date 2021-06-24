@@ -27,6 +27,7 @@ const prodctSchema = new mongoose.Schema({
     }],
     category: { type: String, enum: ["dessert", "poke", "boisson"], required: true },
     description: { type: String, required: true },
+    allergenes: [{ type: String }],
 
     /*  rating: { type: Number, default: 0, required: true }, 
         numReviews: { type: Number, default: 0, required: true }, */
