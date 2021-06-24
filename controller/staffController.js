@@ -15,6 +15,7 @@ async function register(req, res) {
         console.log("ici")
         //envoyer l'emaild e confirmation de création de compte
         const token = await staff.generateAuthToken()
+        console.log(token)
         res.status(201).send({ staff, token })
     } catch (e) {
         res.status(400).send(e)
@@ -22,15 +23,14 @@ async function register(req, res) {
 }
 
 async function logIn(req, res) {
-    console.log(req.body);
     try {
-
+        console.log(req.body);
         const staff = await Staff.findByCredentials(req.body.email, req.body.password)
         console.log(staff);
         const token = await staff.generateAuthToken()
         res.send({ staff, token })
     } catch (e) {
-        res.status(400).send(e)
+        res.status(400).send("Identifiant ou mot de passe incorrect")
     }
 }
 
