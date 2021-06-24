@@ -3,7 +3,7 @@ const Ingredient = require("../db/Model/INGREDIENTS");
 async function getIngredients(req, res) {
     try {
         const ingredients = await Ingredient.find();
-
+        console.log(ingredients)
         if (!ingredients) {
             console.log("ici");
             throw new Error
