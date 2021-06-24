@@ -22,8 +22,11 @@ async function register(req, res) {
 }
 
 async function logIn(req, res) {
+    console.log(req.body);
     try {
+
         const staff = await Staff.findByCredentials(req.body.email, req.body.password)
+        console.log(staff);
         const token = await staff.generateAuthToken()
         res.send({ staff, token })
     } catch (e) {
