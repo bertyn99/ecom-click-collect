@@ -76,6 +76,7 @@ staffSchema.methods.generateAuthToken = async function () {
 }
 staffSchema.statics.findByCredentials = async (email, password) => {
     const staff = await Staff.findOne({ email })
+
     console.log(staff)
     if (!staff) {
         throw new Error('Unable to login.')
@@ -105,9 +106,7 @@ function modelAlreadyDeclared() {
         return false
     }
 }
-/*const Staff = mongoose.models.Staff || mongoose.model("Staff", staffSchema)   !modelAlreadyDeclared() ? mongoose.model("Staff", staffSchema) : mongoose.model('Staff') */
-if (process.env.NODE_ENV === 'production') {
-    module.exports = mongoose.model("Staff", staffSchema);
-} else {
-    module.exports = mongoose.models.Staff || mongoose.model("Staff", staffSchema);
-}
+const Staff = mongoose.models.Staff || mongoose.model("Staff", staffSchema)
+
+module.exports = Staff
+
