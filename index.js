@@ -7,6 +7,7 @@ const apiStaff = require("./routes/staff").router;
 const apiUser = require("./routes/user").router;
 const apiIngredient = require("./routes/ingredient").router;
 const apiProduct = require("./routes/product");
+const database = require("./db/connexion");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
