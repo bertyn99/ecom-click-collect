@@ -1,4 +1,4 @@
-const Staff = require("../db/model/staff");
+const Staff = require("../db/model/STAFF");
 const database = require("../db/connexion");
 
 
