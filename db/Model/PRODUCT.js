@@ -25,7 +25,7 @@ const prodctSchema = new mongoose.Schema({
         ref: 'Ingredient',
         set: distinct
     }],
-    category: { type: String, enum: ["dessert", "poke", "boisson"], required: true },
+    category: { type: String, enum: ["dessert", "poke", "boisson", "entree"], required: true },
     description: { type: String, required: true },
     allergenes: [{ type: String }],
 
