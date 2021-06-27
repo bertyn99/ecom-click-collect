@@ -2,6 +2,8 @@
 //db and schema
 /* const User = require("../db/type/user"); */
 const User = require("../db/Model/USER");
+const cloudinary = require('../utils/cloudinary');
+const upload = require("../utils/multer")
 
 const bcrypt = require("bcrypt");
 
@@ -60,7 +62,7 @@ async function myInfo(req, res) {
 
 async function updateInfo(req, res) {
     const id = req.params.id
-    const allowedUpdates = ['name', 'email', 'password', 'mobile']
+    const allowedUpdates = ['name', 'email', 'password', 'mobile', 'image']
     const updates = Object.keys(req.body)
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
@@ -92,12 +94,20 @@ async function deleteUser(req, res) {
     }
 }
 
-
+async function uploadUser(req, res) {
+    try {
+        const result = await cloudinary.uploader.upload(req.file.path)
+        res.json(result)
+    } catch (e) {
+        console.log(e)
+    }
+}
 
 module.exports = {
     register,
     logIn,
     logOut,
     myInfo,
-    updateInfo
+    updateInfo,
+    uploadUser
 }
