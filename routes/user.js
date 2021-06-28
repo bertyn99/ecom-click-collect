@@ -1,6 +1,7 @@
 const express = require("express");
 const user = require("../controller/userController");
 const verifyTokenUser = require("../middleware/verifyTokenUser");
+const upload = require("../utils/multer");
 
 exports.router = (function () {
   let apiUser = express.Router();
@@ -20,10 +21,10 @@ exports.router = (function () {
   apiUser.route("/user/:id").get(verifyTokenUser, user.myInfo);
 
   // edit profile
-  apiUser.route("/user/:id/edit").patch(verifyTokenUser, user.updateInfo);
+  apiUser.route("/user/:id/edit").patch(verifyTokenUser, upload.single('image'), user.updateInfo);
 
   // my info
-  apiUser.route("/user/:id").patch(user.uploadUser);
+  apiUser.route("/user/:id").patch(upload.single('image'), user.uploadUser);
 
   return apiUser;
 })();

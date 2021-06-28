@@ -3,7 +3,8 @@
 /* const User = require("../db/type/user"); */
 const User = require("../db/Model/USER");
 const cloudinary = require('../utils/cloudinary');
-const upload = require("../utils/multer")
+const upload = require("../utils/multer");
+const path = require('path')
 
 const bcrypt = require("bcrypt");
 
@@ -71,12 +72,18 @@ async function updateInfo(req, res) {
     }
 
     try {
-        updates.forEach((update) => [update] = req.body[update])
+        updates.forEach((update) => req.user[update] = req.body[update])
+        if (req.file) {
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                upload_preset: "hawa_user_default"
+            })
+            req.user.avatar = result.secure_url
+        }
+
         console.log(req.user._id)
         if (id != req.user._id) {
             res.status(404).json("Vous n'avrez pas le droit de mettre a jour un autre utilisateur");
         }
-
         await req.user.save()
         res.send(req.user)
 
@@ -96,7 +103,10 @@ async function deleteUser(req, res) {
 
 async function uploadUser(req, res) {
     try {
-        const result = await cloudinary.uploader.upload(req.file.path)
+        console.log(req.file.originalname.split('.')[0])
+        const result = await cloudinary.uploader.upload(req.file.path, {
+            upload_preset: "hawa_product_default"
+        })
         res.json(result)
     } catch (e) {
         console.log(e)

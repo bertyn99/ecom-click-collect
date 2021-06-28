@@ -53,6 +53,7 @@ let userSchema = new Schema({
             required: true
         }
     }],
+    avatar: { type: String },
     createIp: { type: String, required: false },
     resetPassword: { type: Object, required: false },
     mobile: { type: String, required: true, minlength: 10 }
