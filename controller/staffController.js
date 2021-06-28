@@ -72,7 +72,13 @@ async function updateInfo(req, res) {
     }
 
     try {
-        updates.forEach((update) => req.user[update] = req.body[update])
+        updates.forEach((update) => req.staff[update] = req.body[update])
+        if (req.file) {
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                upload_preset: "hawa_staff_default"
+            })
+            req.staff.avatar = result.secure_url
+        }
         await req.staff.save()
         res.send(req.staff)
 

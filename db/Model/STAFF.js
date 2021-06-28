@@ -60,6 +60,7 @@ let staffSchema = new Schema({
         default: 'basic',
         enum: ["basic", "supervisor", "admin"]
     },
+    avatar: { type: String },
     resetPassword: { type: Object, required: false },
     mobile: { type: String, minlength: 10 }
 }, {
