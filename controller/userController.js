@@ -3,7 +3,6 @@
 /* const User = require("../db/type/user"); */
 const User = require("../db/Model/USER");
 const cloudinary = require('../utils/cloudinary');
-const upload = require("../utils/multer");
 const path = require('path')
 
 const bcrypt = require("bcrypt");

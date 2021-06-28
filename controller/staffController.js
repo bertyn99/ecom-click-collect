@@ -2,7 +2,8 @@
 //db and schema
 /* const User = require("../db/type/user"); */
 const Staff = require("../db/Model/STAFF");
-
+const cloudinary = require('../utils/cloudinary');
+const path = require('path')
 const bcrypt = require("bcrypt");
 
 async function register(req, res) {
@@ -63,6 +64,7 @@ async function myInfo(req, res) {
 }
 
 async function updateInfo(req, res) {
+
     const allowedUpdates = ['name', 'email', 'password']
     const updates = Object.keys(req.body)
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))

@@ -9,6 +9,9 @@ const verifyToken = require("../middleware/verifyToken");
 //healthcheck
 const status = require("../controller/statusController");
 
+//multer
+const upload = require("../utils/multer");
+
 
 exports.router = (function () {
   let apiStaff = express.Router();
@@ -28,7 +31,7 @@ exports.router = (function () {
   apiStaff.route("/staff/:id").get(verifyToken, staff.myInfo);
 
   // edit profile
-  apiStaff.route("/staff/:id/edit").patch(verifyToken, staff.updateInfo);
+  apiStaff.route("/staff/:id/edit").patch(verifyToken, upload.single('image'), staff.updateInfo);
 
 
   // health check
