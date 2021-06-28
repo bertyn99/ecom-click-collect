@@ -22,8 +22,7 @@ const prodctSchema = new mongoose.Schema({
     price: { type: Number, default: 0, required: true },
     ingredients: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Ingredient',
-        set: distinct
+        ref: 'Ingredient', default: [],
     }],
     category: { type: String, enum: ["dessert", "poke", "boisson", "entree"], required: true },
     description: { type: String, required: true },
@@ -31,7 +30,7 @@ const prodctSchema = new mongoose.Schema({
 
     /*  rating: { type: Number, default: 0, required: true }, 
         numReviews: { type: Number, default: 0, required: true }, */
-    reviews: [reviewSchema],
+    reviews: [{ type: reviewSchema, default: [] }],
 });
 
 const Product = mongoose.model('Product', prodctSchema);

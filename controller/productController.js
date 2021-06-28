@@ -1,5 +1,8 @@
 const Product = require("../db/Model/PRODUCT");
 
+const cloudinary = require('../utils/cloudinary');
+const path = require('path')
+//multer
 
 async function getProducts(req, res) {
     try {
@@ -25,8 +28,17 @@ async function getProduct(req, res) {
 }
 
 async function createProduct(req, res) {
+
     const product = new Product({ ...req.body });
+    console.log(product);
     try {
+        if (req.file) {
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                upload_preset: "hawa_product_default"
+            })
+            product.image = result.secure_url;
+        }
+
         await product.save();
         res.status(201).send(product);
     } catch (e) {
@@ -44,6 +56,12 @@ async function updateProduct(req, res) {
         res.status(400).send({ error: 'Invalid Update!!' })
     }
     try {
+        if (req.file) {
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                upload_preset: "hawa_product_default"
+            })
+            req.body.image = result.secure_url;
+        }
         await Product.findOneAndUpdate({ '_id': req.params.id }, { $set: { ...req.body } }, { new: true, runValidators: true })
 
         res.status(201).json("Votre produit a bien été modifié")
