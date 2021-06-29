@@ -111,6 +111,12 @@ async function uploadUser(req, res) {
         console.log(e)
     }
 }
+async function reconnectUser(req, res) {
+    console.log('ici')
+    return res.status(200).json(
+        req.user
+    );
+}
 
 module.exports = {
     register,
@@ -118,5 +124,6 @@ module.exports = {
     logOut,
     myInfo,
     updateInfo,
-    uploadUser
+    uploadUser,
+    reconnectUser
 }

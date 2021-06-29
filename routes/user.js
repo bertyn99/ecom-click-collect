@@ -17,8 +17,11 @@ exports.router = (function () {
   /*   // reconnect user
     apiUser.route("/reconnect").post(verifyToken, lastView, user.reconnectUser); */
 
-  // my info
-  apiUser.route("/user/:id").get(verifyTokenUser, user.myInfo);
+  /*   // my info
+    apiUser.route("/user/:id").get(verifyTokenUser, user.myInfo); */
+
+  // my reconnection
+  apiUser.route("/user/reconnect").get(verifyTokenUser, user.reconnectUser);
 
   // edit profile
   apiUser.route("/user/:id/edit").patch(verifyTokenUser, upload.single('image'), user.updateInfo);
