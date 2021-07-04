@@ -99,7 +99,7 @@ async function deleteStaff(req, res) {
 }
 async function reconnectStaff(req, res) {
     return res.status(200).send(
-        req.staff
+        req.staff, req.token
     );
 }
 
