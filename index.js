@@ -21,10 +21,10 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use("/api/admin", apiStaff);
-app.use("/api/ingredients", apiIngredient);
-app.use("/api/product", apiProduct);
-app.use("/api", apiUser);
+app.use("/admin", apiStaff);
+app.use("/ingredients", apiIngredient);
+app.use("/product", apiProduct);
+app.use("/", apiUser);
 
 
 app.listen(config.PORT, () => {

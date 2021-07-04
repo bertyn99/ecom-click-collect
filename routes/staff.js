@@ -31,10 +31,10 @@ exports.router = (function () {
   apiStaff.route("/staff/:id").get(verifyToken, staff.myInfo);
 
   // edit profile
-  apiStaff.route("/staff/:id/edit").patch(verifyToken, upload.single('image'), staff.updateInfo);
+  apiStaff.route("/:id/edit").patch(verifyToken, upload.single('image'), staff.updateInfo);
 
   //reconnection
-  apiStaff.route("/staff/reconnect").get(verifyToken, staff.reconnectStaff);
+  apiStaff.route("/reconnect").get(verifyToken, staff.reconnectStaff);
 
   // health check
   apiStaff.route("/").get(status.healthCheck);
