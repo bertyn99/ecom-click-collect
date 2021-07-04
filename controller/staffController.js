@@ -97,6 +97,11 @@ async function deleteStaff(req, res) {
         res.status(500).send(e)
     }
 }
+async function reconnectStaff(req, res) {
+    return res.status(200).json(
+        req.staff
+    );
+}
 
 
 module.exports = {
@@ -105,5 +110,6 @@ module.exports = {
     logOut,
     myInfo,
     deleteStaff,
-    updateInfo
+    updateInfo,
+    reconnectStaff
 }

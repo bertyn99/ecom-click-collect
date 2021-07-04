@@ -33,6 +33,8 @@ exports.router = (function () {
   // edit profile
   apiStaff.route("/staff/:id/edit").patch(verifyToken, upload.single('image'), staff.updateInfo);
 
+  //reconnection
+  apiStaff.route("/staff/reconnect").get(verifyToken, staff.reconnectStaff);
 
   // health check
   apiStaff.route("/").get(status.healthCheck);
