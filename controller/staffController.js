@@ -98,8 +98,10 @@ async function deleteStaff(req, res) {
     }
 }
 async function reconnectStaff(req, res) {
-    return res.status(200).send(
-        req.staff, req.token
+    let staff = req.staff;
+    let token = req.token
+    return res.send(
+        { staff, token }
     );
 }
 
