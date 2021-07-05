@@ -6,10 +6,10 @@ exports.router = (function () {
     const apiIngredient = express.Router();
 
     //create ingredients
-    apiIngredient.route("/").post(ingredient.create)
+    apiIngredient.route("/").post(verifyToken, ingredient.create)
 
     //update ingredients
-    apiIngredient.route("/:id/edit").patch(ingredient.update)
+    apiIngredient.route("/:id").patch(verifyToken, ingredient.update)
 
     //list of ingredients
     apiIngredient.route("/").get(ingredient.getIngredients)

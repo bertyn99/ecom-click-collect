@@ -7,7 +7,6 @@ const verifyToken = async (req, res, next) => {
         const token = req.header('Authorization').replace('Bearer ', '')
         const decoded = jwt.verify(token, config.JWT_SECRET)
         const staff = await Staff.findOne({ _id: decoded._id, role: decoded.role, 'tokens.token': token })
-        console.log(staff)
         if (!staff) {
             throw new Error()
         }
