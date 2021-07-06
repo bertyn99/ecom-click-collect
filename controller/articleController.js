@@ -27,6 +27,7 @@ async function getArticle(req, res) {
 }
 
 async function create(req, res) {
+    console.log(req.body)
     const article = new Article({
         ...req.body
     });
@@ -62,7 +63,8 @@ async function update(req, res) {
 
 async function deleteArticle(req, res) {
     try {
-        Article.deleteOne({ _id: req.params.id })
+        await Article.deleteOne({ _id: req.params.id })
+        return res.status(200).send({ status: "success" });
     } catch (e) {
         res.status(400).json(e);
     }

@@ -22,5 +22,6 @@ exports.router = (function () {
     //get article
     apiArticle.route("/:id").get(article.getArticle)
 
+    apiArticle.route("/:id").delete(verifyToken, article.deleteArticle);
     return apiArticle;
 })();
