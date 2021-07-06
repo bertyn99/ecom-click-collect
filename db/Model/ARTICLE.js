@@ -2,8 +2,11 @@ const mongoose = require('mongoose');
 
 const articleSchema = new mongoose.Schema({
     author: String,
+    cover: [{ type: String }],
     content: String,
-    published: Boolean
+    isPublished: Boolean,
+    publishingDate: Date
+
 }, {
     timestamps: true
 })
