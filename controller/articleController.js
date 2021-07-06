@@ -41,7 +41,7 @@ async function create(req, res) {
 
 async function update(req, res) {
     const id = req.params.id;
-    const allowedUpdates = ['author', 'titre', 'content', 'isPublished', 'publishingDate', 'cover', 'desc'];
+    const allowedUpdates = ['author', 'title', 'content', 'isPublished', 'publishingDate', 'cover', 'desc'];
     const updates = Object.keys(req.body);
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
