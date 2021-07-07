@@ -65,6 +65,7 @@ async function myInfo(req, res) {
 
 async function updateInfo(req, res) {
 
+
     const allowedUpdates = ['name', 'email', 'password']
     const updates = Object.keys(req.body)
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
@@ -74,15 +75,36 @@ async function updateInfo(req, res) {
     }
 
     try {
-        updates.forEach((update) => req.staff[update] = req.body[update])
-        if (req.file) {
-            const result = await cloudinary.uploader.upload(req.file.path, {
-                upload_preset: "hawa_staff_default"
-            })
-            req.staff.avatar = result.secure_url
+        /*  updates.forEach((update) => req.staff[update] = req.body[update])
+         if (req.file) {
+             const result = await cloudinary.uploader.upload(req.file.path, {
+                 upload_preset: "hawa_staff_default"
+             })
+             req.staff.avatar = result.secure_url
+         } */
+        if (req.staff.role == "basic") {
+
+            if (req.params.id != req.staff._id) {
+                res.status(404).json("Vous n'avrez pas le droit de mettre a jour un autre menbre du staff");
+            }
+            updates.forEach((update) => req.staff[update] = req.body[update])
+            await req.staff.save()
+            res.send(req.staff)
         }
-        await req.staff.save()
-        res.send(req.staff)
+
+        if (req.staff.role == "admin" || req.staff.role == "supervisor") {
+
+            if (req.params.id != req.staff._id) {
+                const user = await User.findById(_id)
+                if (user.role == "admin" && req.staff.role == "supervisor") res.status(404).json("Vous n'avrez pas le droit de mettre a jour un administrateur");
+                await user.save()
+                res.send(user)
+            }
+            updates.forEach((update) => req.staff[update] = req.body[update])
+            await req.staff.save()
+            res.send(req.staff)
+        }
+
 
     } catch (e) {
         res.status(400).send(e)

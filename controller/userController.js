@@ -61,6 +61,7 @@ async function myInfo(req, res) {
 }
 
 async function updateInfo(req, res) {
+
     const id = req.params.id
     const allowedUpdates = ['name', 'email', 'password', 'mobile', 'image']
     const updates = Object.keys(req.body)
@@ -70,6 +71,9 @@ async function updateInfo(req, res) {
         res.status(400).send({ error: 'Invalid Upadates!' })
     }
 
+    if (id != req.user._id) {
+        res.status(404).json("Vous n'avrez pas le droit de mettre a jour un autre utilisateur");
+    }
     try {
         updates.forEach((update) => req.user[update] = req.body[update])
         if (req.file) {
@@ -80,9 +84,7 @@ async function updateInfo(req, res) {
         }
 
         console.log(req.user._id)
-        if (id != req.user._id) {
-            res.status(404).json("Vous n'avrez pas le droit de mettre a jour un autre utilisateur");
-        }
+
         await req.user.save()
         res.send(req.user)
 

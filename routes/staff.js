@@ -5,6 +5,7 @@ const staff = require("../controller/staffController");
 
 //middleware
 const verifyToken = require("../middleware/verifyToken");
+const role = require("../middleware/role");
 
 //healthcheck
 const status = require("../controller/statusController");
@@ -16,7 +17,7 @@ const upload = require("../utils/multer");
 exports.router = (function () {
   let apiStaff = express.Router();
   // register user
-  apiStaff.route("/register").post(staff.register);
+  apiStaff.route("/register").post(verifyToken, role(['admin']), staff.register);
 
   // connection user
   apiStaff.route("/login").post(staff.logIn);
@@ -31,7 +32,7 @@ exports.router = (function () {
   apiStaff.route("/staff/:id").get(verifyToken, staff.myInfo);
 
   // edit profile
-  apiStaff.route("/:id/edit").patch(verifyToken, upload.single('image'), staff.updateInfo);
+  apiStaff.route("/staff/:id").patch(verifyToken, upload.single('image'), staff.updateInfo);
 
   //reconnection
   apiStaff.route("/reconnect").get(verifyToken, staff.reconnectStaff);
