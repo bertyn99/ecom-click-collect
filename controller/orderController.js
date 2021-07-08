@@ -1,7 +1,7 @@
 const Order = require("../db/Model/ORDER");
 const database = require("../db/connexion");
 const Strip = require('stripe');
-const stripe = new Strip(process.env.SECRET_KEY);
+const stripe = new Strip(process.env.STRIPE_SK);
 
 async function getOrder(req, res) {
     const _id = req.params.id
@@ -61,7 +61,7 @@ async function createOrder(req, res) {
 }
 
 async function checkoutOrder(req, res) {
-    const { amount } = request.body;
+    const { amount } = req.body;
     // Should calculate server side
 
     try {
@@ -70,7 +70,7 @@ async function checkoutOrder(req, res) {
             currency: "eur"
         });
 
-        response.status(200).send({ secret: paymentIntent.client_secret });
+        res.status(200).send({ secret: paymentIntent.client_secret });
     } catch (error) {
         console.log("error", error);
         response.status(500).send("error" + error);
