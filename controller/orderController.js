@@ -21,6 +21,19 @@ async function getOrder(req, res) {
 
 
 
+
+async function getAllOrders(req, res) {
+    try {
+        const orders = await Order.find();
+        if (!orders) {
+            throw new Error
+        }
+        res.status(200).send(orders);
+    } catch (e) {
+        res.status(404).send("We cant find order")
+    }
+}
+
 async function getYourOrders(req, res) {
     const _id = req.params.id
     try {
@@ -66,7 +79,7 @@ async function checkoutOrder(req, res) {
 
 
 
-async function updateOrders(req, res) {
+async function updateOrder(req, res) {
     const id = req.params.id;
     const allowedUpdates = ['user', 'user', 'image', 'price', 'product', 'description', 'reviews'];
     const updates = Object.keys(req.body);
@@ -100,7 +113,9 @@ module.exports = {
     getOrder,
     getYourOrders,
     createOrder,
-    updateOrders,
-    deleteOrder
+    updateOrder,
+    deleteOrder,
+    checkoutOrder,
+    getAllOrders
 
 }

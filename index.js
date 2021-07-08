@@ -8,6 +8,7 @@ const apiUser = require("./routes/user").router;
 const apiIngredient = require("./routes/ingredient").router;
 const apiArticle = require("./routes/article").router;
 const apiProduct = require("./routes/product");
+const apiOrder = require("./routes/order");
 const database = require("./db/connexion");
 
 app.use(express.urlencoded({ extended: true }));
@@ -25,6 +26,7 @@ app.use(function (req, res, next) {
 app.use("/admin", apiStaff);
 app.use("/ingredients", apiIngredient);
 app.use("/product", apiProduct);
+app.use("/order", apiOrder);
 app.use("/articles", apiArticle);
 app.use("/", apiUser);
 
