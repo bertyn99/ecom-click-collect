@@ -1,4 +1,4 @@
-const Order = require("../db/model/ORDER");
+const Order = require("../db/Model/ORDER");
 const database = require("../db/connexion");
 const Strip = require('stripe');
 const stripe = new Strip(process.env.SECRET_KEY);
