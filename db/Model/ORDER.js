@@ -26,7 +26,7 @@ const orderItemSchema = new mongoose.Schema({
 });
 
 const orderSchema = new mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: "", required },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: "" },
     userRandom: {
         firstname: { type: String, required: true, default: "" },
         lastname: { type: String, required: true, default: "" }
@@ -43,4 +43,4 @@ const orderSchema = new mongoose.Schema({
 });
 
 const Order = mongoose.model("Order", orderSchema);
-export default Order;
+module.exports = Order;
