@@ -1,6 +1,7 @@
 const Order = require("../db/model/ORDER");
 const database = require("../db/connexion");
-
+const Strip = require('stripe');
+const stripe = new Strip(process.env.SECRET_KEY);
 
 async function getOrder(req, res) {
     const _id = req.params.id
@@ -45,6 +46,26 @@ async function createOrder(req, res) {
     }
 
 }
+
+async function checkoutOrder(req, res) {
+    const { amount } = request.body;
+    // Should calculate server side
+
+    try {
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount,
+            currency: "eur"
+        });
+
+        response.status(200).send({ secret: paymentIntent.client_secret });
+    } catch (error) {
+        console.log("error", error);
+        response.status(500).send("error" + error);
+    }
+}
+
+
+
 async function updateOrders(req, res) {
     const id = req.params.id;
     const allowedUpdates = ['user', 'user', 'image', 'price', 'product', 'description', 'reviews'];
