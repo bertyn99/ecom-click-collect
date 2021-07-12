@@ -8,7 +8,8 @@ const config = {
     CLOUD_NAME: process.env.CLOUD_NAME,
     API_KEY: process.env.API_KEY,
     API_SECRET_KEY: process.env.API_SECRET,
-    MAILPASS: process.env.MAILPASS
+    MAILPASS: process.env.MAILPASS,
+    MAIL: process.env.MAIL
 };
 
 module.exports = config
