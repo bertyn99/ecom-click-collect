@@ -8,6 +8,7 @@ const apiUser = require("./routes/user").router;
 const apiIngredient = require("./routes/ingredient").router;
 const apiArticle = require("./routes/article").router;
 const apiProduct = require("./routes/product");
+const apiMail = require("./routes/mail");
 const apiOrder = require("./routes/order");
 const database = require("./db/connexion");
 
@@ -22,7 +23,7 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-
+app.use('/contact', apiMail)
 app.use("/admin", apiStaff);
 app.use("/ingredients", apiIngredient);
 app.use("/product", apiProduct);
