@@ -50,18 +50,22 @@ async function getYourOrders(req, res) {
 }
 
 async function createOrder(req, res) {
+    console.log(req.body)
+
     const order = new Order(req.body);
     try {
-        await order.save();
-        res.status(201).send({ order, token });
+        let ord = await order.save();
+        console.log(ord)
+        res.status(200).send(ord)
     } catch (e) {
-        res.status(400).send(e);
+        res.status(404).send(e)
     }
 
 }
 
 async function checkoutOrder(req, res) {
-    const { amount } = req.body;
+    const { amount } = req.body
+
     // Should calculate server side
 
     try {
@@ -69,7 +73,6 @@ async function checkoutOrder(req, res) {
             amount,
             currency: "eur"
         });
-
         res.status(200).send({ secret: paymentIntent.client_secret });
     } catch (error) {
         console.log("error", error);

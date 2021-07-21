@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const shippingSchema = {
+/* const shippingSchema = {
     address: {
         street: { type: String, required: true },
         city: { type: String, required: true },
@@ -9,7 +9,7 @@ const shippingSchema = {
     carrier: { type: String },
     tracking: { type: String }
 
-};
+}; */
 
 const paymentSchema = {
     paymentMethod: { type: String, required: true }
@@ -28,16 +28,15 @@ const orderItemSchema = new mongoose.Schema({
 const orderSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: "" },
     userRandom: {
-        firstname: { type: String, required: true, default: "" },
-        lastname: { type: String, required: true, default: "" }
+        firstname: { type: String, default: "" },
+        lastname: { type: String, default: "" }
     },
     orderItems: [orderItemSchema],
-    payement: paymentSchema,
+    payement: String,
     totalPrice: { type: Number },
-    taxPrice: { type: Number },
-    isPaid: { type: Boolean, default: false },
-    orderAt: { type: Date },
-    isCollected: { type: Boolean, default: false },
+    isPaid: { type: Boolean, default: true },
+    orderAt: { type: Date, default: Date.now },
+    status: { type: String, enum: ['Prise de commande', 'Commande accepté', 'En préparation', 'prête', 'Remis'], default: "Prise de commande" },
 }, {
     timestamps: true
 });
